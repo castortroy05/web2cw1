@@ -5,14 +5,24 @@ class DataTable extends Component {
         return (
             <tr>
                 <td>
-                    {this.props.obj._id}
+                    {this.props.obj.id}
                 </td>
                 <td>
                     {this.props.obj.name}
                 </td>
                 <td>
+                    {this.props.obj.address}                    
+                </td>
+                <td>
+                    {this.props.obj.postcode}
+                </td>
+                <td>
                     {this.props.obj.email}
                 </td>
+                <td>
+                    {this.props.obj.description}
+                </td>
+                
             </tr>
         );
     }
