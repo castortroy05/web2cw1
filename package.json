@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/jest-dom": "^5.16.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "ansi-regex": "^6.0.1",
@@ -13,11 +13,11 @@
     "google-maps-react": "^2.0.6",
     "jest-runtime": "^27.4.2",
     "react": "^17.0.2",
-    "react-bootstrap": "^1.0.1",
+    "react-bootstrap": "^2.0.3",
     "react-dom": "^17.0.2",
     "react-router-bootstrap": "^0.26.0",
     "react-router-dom": "^6.0.2",
-    "react-scripts": "^0.9.5",
+    "react-scripts": "^4.0.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -26,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "concurrently \"npm run frontend\" \"npm run backend\""
+    "start": "concurrently --kill-others \"npm run backend\" \"npm run frontend\""
   },
   "eslintConfig": {
     "extends": [
