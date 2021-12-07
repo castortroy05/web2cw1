@@ -9,10 +9,12 @@ import {
     BrowserRouter
   } from "react-router-dom";
 import Home from "./Home";
-import Hostels from "./Hostels";
-import Itineraries from './Itineraries'
-import Contact from './Contact'
-import About from "./About";
+import Hostels from "./components/Hostels";
+import Itineraries from './components/Itineraries'
+import Contact from './components/Contact'
+import About from "./components/About";
+import apiClient from "./http-common";
+
 
   class Main extends Component {
     render() {

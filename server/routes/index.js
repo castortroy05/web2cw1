@@ -235,7 +235,11 @@ var itineraries = [
         "user": "Alice",
         "startdate" : new Date(2022, 5, 24),
         "stages": [
-            {"stage":1, "hostel":1, "nights": 2}
+            {"stage":1, "hostel":1, "nights": 2},
+            {"stage":2, "hostel":2, "nights": 2},
+            {"stage":3, "hostel":3, "nights": 2},
+            {"stage":4, "hostel":4, "nights": 2},
+
         ]
     }
 ]

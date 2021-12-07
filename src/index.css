@@ -1,12 +1,12 @@
 body {
-  background-color: #FBBBB0
+  background-color: darkslateblue
   ;
   padding: 20px;
   margin: 0;
 }
 
 .active {
-  background-color: #bab6f8;
+  background-color: darkslategray;
 }
 h1, h2, p, ul, li {
   font-family: sans-serif;
@@ -22,14 +22,14 @@ ul.header {
   padding: 0;
 }
 ul.header li a {
-  color: #f8b6d3;
+  color: #76A5AF;
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
   display: inline-block;
 }
 .content {
-  background-color: #fbb0f0;
+  background-color: #3d598b;
   padding: 20px;
 }
 .content h2 {
