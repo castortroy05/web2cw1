@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
+import Hostels from "./Hostels";  
 
 
 
@@ -34,7 +35,7 @@ CardView = ({
     <Card.Title className="text-center" as="h4">{user}</Card.Title>
     <Card.Subtitle className="text-sm text-muted text-center">{startdate}</Card.Subtitle>
     <Card.Body>    
-      <ListGroup variant="flush">
+    <ListGroup variant="flush">
         {stages.map(stage => (
           <ListGroup.Item>
          Hostel ID : {stage.hostel} - Number of Nights : {stage.nights}
