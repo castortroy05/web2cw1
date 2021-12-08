@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from "react";
-import {Navbar, NavItem, Button, MenuItem} from 'react-bootstrap';
+import {Navbar, NavItem, Button, MenuItem, Container} from 'react-bootstrap';
 import LinkContainer from 'react-router-bootstrap';
 import {
     Route,
@@ -20,7 +20,7 @@ import apiClient from "./http-common";
     render() {
       return (
           
-//make a navbar using BrowserRouter to load the different pages
+        <Container>
         <BrowserRouter>
         <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="/">Home</Navbar.Brand>
@@ -40,34 +40,37 @@ import apiClient from "./http-common";
           <Route path="about" element={<About />} />
         </Routes>
         </BrowserRouter>
-      
+        </Container>
 
-      );
+      
     
 
         
 
-          <div>
-            <h1>NC 500 </h1>
-            {/* <ul className="header">
-              <li><NavLink to="/">Home</NavLink></li>
-              <li><NavLink to="/hostels">Hostels</NavLink></li>
-              <li><NavLink to="/itineraries">Itineraries</NavLink></li>
-              <li><NavLink to="/contact">Contact</NavLink></li> 
-              <li><NavLink to="/about">About</NavLink></li>               
-            </ul> */}
-            <div className="content">
-            {/* <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/hostels" element={<Hostels />}/>
-            <Route path="/contact" element={<Contact />}/>
-            <Route path="/about" element={<About />}/>
-            <Route path="/itineraries" element={<Itineraries />}/>
-            </Routes> */}
-            </div>
-          </div>
+        //   <div>
+        //     <h1>NC 500 </h1>
+        //     <ul className="header">
+        //       <li><NavLink to="/">Home</NavLink></li>
+        //       <li><NavLink to="/hostels">Hostels</NavLink></li>
+        //       <li><NavLink to="/itineraries">Itineraries</NavLink></li>
+        //       <li><NavLink to="/contact">Contact</NavLink></li> 
+        //       <li><NavLink to="/about">About</NavLink></li>
+        //       </ul>
+        //     <div className="content">
+        //     <Routes>
+        //     <Route exact path="/" element={<Home />} />
+        //     <Route path="/hostels" element={<Hostels />}/>
+        //     <Route path="/contact" element={<Contact />}/>
+        //     <Route path="/about" element={<About />}/>
+        //     <Route path="/itineraries" element={<Itineraries />}/>
+        
+     
+            
+        //     </Routes>
+        //     </div>
+        //   </div>
         // </BrowserRouter>
-    //   );
+      );
     }
   }
  

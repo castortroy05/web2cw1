@@ -3,11 +3,9 @@ import axios from 'axios';
 import ListGroup from "react-bootstrap/ListGroup";  //importing the card list group
 import Card from "react-bootstrap/Card";
 import { Badge, Button, ButtonGroup } from "react-bootstrap";
-import StarRating from "react-bootstrap-star-rating"
-
-
-
-
+import ReactStars from "react-stars"
+import {Bar} from 'react-chartjs-2';
+import Chart from 'chart.js/auto'
 
 class Hostels extends Component {
   
@@ -16,7 +14,29 @@ class Hostels extends Component {
     this.state = { allHostels: [] };
 }
 
-  componentDidMount() {
+
+//if an id is passed in load only that hostel
+// componentDidMount() {
+//   if(id){
+//     axios.get(`http://localhost:3001/hostels/${id}`)
+//     .then(res => {
+//       const hostel = res.data;
+//       this.setState({ allHostels: [hostel] });
+//     })
+//   }
+//   else{
+//     axios.get('http://localhost:3001/hostels')
+//     .then(res => {
+//       const hostels = res.data;
+//       this.setState({ allHostels: hostels });
+//     })
+//   }
+// }
+
+
+
+
+   componentDidMount() {
     axios.get('http://localhost:3001/hostels/?')
         .then(res => {
             this.setState({ allHostels: res.data });
@@ -27,6 +47,7 @@ class Hostels extends Component {
         })
 }
 CardView = ({
+  
   id=0,
   name = "Default Title",
   address = "Default Text",
@@ -37,23 +58,77 @@ CardView = ({
   location= {lat:0, long:0},
     
 }) => (
-<Card bg="dark" style={{width:"25rem", borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem", boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}>
-      <Card.Header className="text-center text-light" as="h4" >{name} <Badge style={{borderRadius:"1rem"}} className="bg-info align-right" >{(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}</Badge> </Card.Header>
-      <Card.Img variant="top" src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" />
+<Card bg="dark" className="shadow-lg" style={{width:"25rem", borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem"}}>
+      <Card.Header className="text-center d-flex flex-column align-items-center text-light" as="h4" >{name}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2" ><ReactStars
+        count={5}
+        value={(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}
+        size={24}
+        color2={'#ffd700'}
+        edit={false}
+      /></Badge> </Card.Header>
+      {/* <iframe title="location" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAiNObb6o1jwa00ryO1xpEqL0VFF7yk5Ls&q=${location.lat},${location.long}`} width="100%" height="200" frameborder="0" style={{border:0}} allowfullscreen></iframe> */}
+      {/* <Card.Img variant="top" src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" /> */}
       <Card.Body className="bg-light">
       <Card.Title className="text-center" >{address}</Card.Title>
-      <Card.Subtitle className="text-sm text-muted text-center">{email}</Card.Subtitle>
-      <Card.Text className="text-center">Lat : {location.lat} Long : {location.long}</Card.Text>
-      //calculate number of stars from the average ratings and show them in the card
-      <Card.Text className="text-center">{StarRating}</Card.Text>           
+      <Card.Subtitle className="text-sm text-muted text-center ">{email}</Card.Subtitle>
+      {/* <Card.Text className="text-center">Lat : {location.lat} Long : {location.long}</Card.Text> */}
       <Card.Text className="truncate" style={{margin:"3px"}}>{description}</Card.Text>
       <Card.Header className="text-center" as="h4" >Reviews</Card.Header>
-      <ListGroup className="list-group-flush">{reviews.map(review => <ListGroup.Item>{review.reviewer} {review.review}</ListGroup.Item>)}</ListGroup>        
-      <Card.Text style={{margin:"3px"}}>Average Rating : {(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}</Card.Text>  
+      <ListGroup variant="flush">
+      {reviews.map((review, index) => (
+        <ListGroup.Item key={index}>
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="row">
+                <div className="col-sm-6">
+                  <p className="text-muted">{review.reviewer}</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-6">
+              <p className="text-muted">{review.review}</p>
+            </div>
+          </div>
+        </ListGroup.Item>
+      ))}
+      </ListGroup>
+      <Card.Footer className="text-center">
+      <ButtonGroup className="text-center" aria-label="Basic example">
+        <Button variant="outline-info" onClick={() => this.props.history.push(`/hostels/${id}`)}>View</Button>
+        <Button variant="outline-info" onClick={() => this.props.history.push(`/hostels/${id}/review`)}>Add Review</Button>
+      </ButtonGroup></Card.Footer>
+
+      {/* <ListGroup className="list-group-flush">{reviews.map(review => <ListGroup.Item>{review.reviewer} {review.review}</ListGroup.Item>)}</ListGroup>        
+      <Card.Text style={{margin:"3px"}}>Average Rating : {(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}</Card.Text> */}
+      <Bar      
+        datasetIdKey="id"
+        data={{
+          labels: [1,2,3,4,5],
+          datasets: [
+            {              
+              label: "Ratings",
+              backgroundColor: "rgba(255,0,255,0.2)",
+              borderColor: "rgba(255,0,255,1)",
+              
+              borderWidth: 1,
+              barThickness: "flex",
+              hoverBackgroundColor: "rgba(255,0,255,0.4)",
+              hoverBorderColor: "rgba(255,0,255,1)",
+              data: [
+                ratings.filter(rating => rating === 1).length,  
+                ratings.filter(rating => rating === 2).length,
+                ratings.filter(rating => rating === 3).length,
+                ratings.filter(rating => rating === 4).length,
+                ratings.filter(rating => rating === 5).length
+              ]              
+            }
+          ]
+        }}  
+        /><Card.Text></Card.Text>
     </Card.Body>
     <Card.Footer bg="dark" className="text-white text-center">
-    <ButtonGroup><Button href={`mailto:${email}`}>Email</Button><Button href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}>Map</Button><Button onClick={() => this.addReview(id)}>Add Review</Button>
-    <Button>Details</Button></ButtonGroup></Card.Footer>
+    <ButtonGroup><Button variant="success" className="fa fa-envelope" href={`mailto:${email}`}></Button><Button className="fa fa-map" href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}></Button><Button className="fa fa-plus" onClick={() => this.addReview(id)}></Button>
+    <Button className="fa fa-eye"></Button></ButtonGroup></Card.Footer>
   </Card>
 );
 addReview(id) {
