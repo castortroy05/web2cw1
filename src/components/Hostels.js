@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import ListGroup from "react-bootstrap/ListGroup";  //importing the card list group
 import Card from "react-bootstrap/Card";
-import { Badge, Button, ButtonGroup } from "react-bootstrap";
+import { Accordion ,Badge, Button, ButtonGroup } from "react-bootstrap";
 import ReactStars from "react-stars"
 import {Bar} from 'react-chartjs-2';
 import Chart from 'chart.js/auto'
@@ -15,7 +15,8 @@ class Hostels extends Component {
 }
 
 
-//if a param is passed to the page load only that hostels
+//if an id is typed in the address bar, filter the hostels by that id
+  
   
 
 
@@ -59,6 +60,26 @@ CardView = ({
       {/* <Card.Text className="text-center">Lat : {location.lat} Long : {location.long}</Card.Text> */}
       <Card.Text className="truncate" style={{margin:"3px"}}>{description}</Card.Text>
       <Card.Header className="text-center" as="h4" >Reviews</Card.Header>
+      //use accordian to have the reviews expand 
+      {/* <Accordion>
+      {reviews.map((review, acc) => (
+        <div key={acc}>
+        <Accordion.Toggle as={Button} variant="link" eventKey={acc}>
+          {review.review}
+        </Accordion.Toggle>
+        <Accordion.Collapse eventKey={acc}>
+          <Card.Body>
+            <Card.Text>{review.review}</Card.Text>
+          </Card.Body>
+        </Accordion.Collapse>
+      </div>
+      ))}
+      </Accordion>
+      <ButtonGroup className="d-flex justify-content-center">
+      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}`)}>View</Button>
+      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}/edit`)}>Edit</Button>
+      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}/delete`)}>Delete</Button>
+      </ButtonGroup> */}
       <ListGroup variant="flush">
       {reviews.map((review, index) => (
         <ListGroup.Item key={index}>
@@ -174,7 +195,7 @@ handleSearch = (event) =>{
       <div>
         <h1>Hostels</h1>
       
-        <div style={{ margin: '0 auto', display:"row" }}><label>Search:</label><input type="text" onChange={(event) =>this.handleSearch(event)} /></div>
+        <form className="align-center" style={{ margin: '0 auto' }}><label>Search:</label><input type="text" onChange={(event) =>this.handleSearch(event)} /></form>
 
 
         <div className="container-fluid">
