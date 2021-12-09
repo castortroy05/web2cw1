@@ -11,27 +11,12 @@ class Hostels extends Component {
   
   constructor(props) {
     super(props);
-    this.state = { allHostels: [] };
+    this.state = { allHostels: [], filteredHostels: [] };
 }
 
 
-//if an id is passed in load only that hostel
-// componentDidMount() {
-//   if(id){
-//     axios.get(`http://localhost:3001/hostels/${id}`)
-//     .then(res => {
-//       const hostel = res.data;
-//       this.setState({ allHostels: [hostel] });
-//     })
-//   }
-//   else{
-//     axios.get('http://localhost:3001/hostels')
-//     .then(res => {
-//       const hostels = res.data;
-//       this.setState({ allHostels: hostels });
-//     })
-//   }
-// }
+//if a param is passed to the page load only that hostels
+  
 
 
 
@@ -39,7 +24,7 @@ class Hostels extends Component {
    componentDidMount() {
     axios.get('http://localhost:3001/hostels/?')
         .then(res => {
-            this.setState({ allHostels: res.data });
+            this.setState({ allHostels: res.data, filteredHostels: res.data });
             console.log(res.data);
         })
         .catch(function (error) {
@@ -148,19 +133,53 @@ addReview(id) {
 }
 
   allHostels() {
-    return this.state.allHostels.map((data, i) => {
+    try {
+      return this.state.filteredHostels.map((data, i) => {
         return <this.CardView key={i} {...data} />;
     });
+    }
+    catch (err) {
+      console.log(err);
+    }
+
 }
+
+handleSearch = (event) =>{
+  
+  console.log(event.target.value);
+  const search = event.target.value.toLowerCase();
+  if(search === ""){
+    this.setState({
+      filteredHostels: this.state.allHostels
+
+    })
+    return;
+  }
+ 
+  this.setState({
+    filteredHostels: this.state.allHostels.filter(hostel => hostel.name.toLowerCase().includes(search)||hostel.address.toLowerCase().includes(search))
+    
+  });
+  console.log(this.state.filteredHostels);
+
+}
+
+
+
+
   render() {
+    const { allHostels } = this.state;
+
     return (
       <div>
         <h1>Hostels</h1>
       
-
+        <div style={{ margin: '0 auto', display:"row" }}><label>Search:</label><input type="text" onChange={(event) =>this.handleSearch(event)} /></div>
 
 
         <div className="container-fluid">
+          
+
                 <div className="justify-content-center card-group gap-4">{this.allHostels()}</div>
         </div>
         {/* ///create a Modal to add a review for the hostel */}
