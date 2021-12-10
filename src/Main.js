@@ -50,7 +50,6 @@ import apiClient from "./http-common";
         
           <BrowserRouter>
           <div>
-            <h1>NC 500 </h1>
             <ul className="header">
               <li><NavLink to="/">Home</NavLink></li>
               <li><NavLink to="/hostels">Hostels</NavLink></li>
