@@ -1,22 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import axios from 'axios';
 import ListGroup from "react-bootstrap/ListGroup";  //importing the card list group
 import Card from "react-bootstrap/Card";
-import { Accordion ,Badge, Button, ButtonGroup } from "react-bootstrap";
+import { Badge, Button, ButtonGroup } from "react-bootstrap";
 import ReactStars from "react-stars"
 import {Bar} from 'react-chartjs-2';
 import Chart from 'chart.js/auto'
 import DataTable from 'react-data-table-component';
+// import e from "express";
+// import { useHistory } from "react-router-dom";
 
 class Hostels extends Component {
   
   constructor(props) {
     super(props);
-    this.state = { allHostels: [], filteredHostels: [] };
+    this.state = { allHostels: [], filteredHostels: [], reviews: [] };
 }
 
 
-//if an id is typed in the address bar, filter the hostels by that id
+// hostelReviews() {
+//   const[reviews, setReviews] = useState([]);
+
+//   updateReviews(e) {
+//     const item = e.target.value;
+//     console(item);
+//     setReviews([...reviews, review]);
+//   }
+
+//   return reviews;
+// }
+
   
   
 
@@ -45,7 +58,7 @@ CardView = ({
   location= {lat:0, long:0},
     
 }) => (
-<Card bg="dark" className="shadow-lg" style={{width:"25rem", borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem"}}>
+<Card bg="dark" className="shadow-lg" style={{width:"25rem", borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem", borderWidth:"0"}}>
       <Card.Header className="text-center d-flex flex-column align-items-center text-light" as="h4" >{name}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2" ><ReactStars
         count={5}
         value={(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}
@@ -157,7 +170,20 @@ CardView = ({
             }
           ]
         }}  
-        /><Card.Text></Card.Text>
+        />
+        
+        
+      
+        <Card.Text>
+          
+
+
+          
+            
+          
+          
+
+        </Card.Text>
     </Card.Body>
     <Card.Footer bg="dark" className="text-white text-center">
     <ButtonGroup><Button variant="success" className="fa fa-envelope" href={`mailto:${email}`}></Button><Button className="fa fa-map" href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}></Button><Button className="fa fa-plus" onClick={() => this.addReview(id)}></Button>
@@ -166,7 +192,7 @@ CardView = ({
 );
 addReview(id) {
   console.log(id);
-    axios.post('http://localhost:3001/hostels/'+id+'/reviews', {
+    axios.post('http://localhost:3001/hostels/review/'+id+'', {
     reviewer: "John",
     review: "This is a review"
   })
@@ -176,6 +202,13 @@ addReview(id) {
   .catch(function (error) {
     console.log(error);
   })
+//refresh the Card container to reload the reviews
+  this.setState({
+    reviews: []
+  });
+
+
+
 
 }
 
@@ -219,12 +252,15 @@ handleSearch = (event) =>{
 
     return (
       <div>
-        <h1>Hostels</h1>
-      
-        <form className="align-center" style={{ margin: '0 auto' }}><label>Search:</label><input type="text" onChange={(event) =>this.handleSearch(event)} /></form>
-
-
-        <div className="container-fluid">
+          <div className="container-fluid">
+          <div className="row justify-content-center">
+        <Card classname="align-center" style={{width:"25rem", borderWidth:"0" ,borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", backgroundColor:"inherit", borderColor:"backgroundColor",}} >
+        <Card.Title className="text-center">Search for a Hostel</Card.Title>
+        <Card.Body>
+        <Card.Text className="text-center">
+        <form className="align-center" style={{ margin: '0 auto' }}><label></label><input type="text" onChange={(event) =>this.handleSearch(event)} /></form>
+        </Card.Text></Card.Body>
+        </Card></div>
           
 
                 <div className="justify-content-center card-group gap-4">{this.allHostels()}</div>

@@ -1,12 +1,12 @@
 body {
-  background-color: darkslateblue
+  background-color: darkorange
   ;
   padding: 20px;
   margin: 0;
 }
 
 .active {
-  background-color: darkslategray;
+  background-color: orange;
 }
 h1, h2, p, ul, li {
   font-family: sans-serif;
@@ -17,19 +17,20 @@ ul.header li {
   margin: 0;
 }
 ul.header {
-  background-color: #000000
+  background-color: #212529
   ;
   padding: 0;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
 }
 ul.header li a {
-  color: #76A5AF;
+  color: orangered;
   font-weight: bold;
   text-decoration: none;
   padding: 20px;
   display: inline-block;
 }
 .content {
-  background-color: #3d598b;
+  background-color: slate;
   padding: 20px;
 }
 .content h2 {

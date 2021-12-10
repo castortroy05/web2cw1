@@ -11,6 +11,7 @@ import {
 import Home from "./Home";
 import Hostels from "./components/Hostels";
 import Itineraries from './components/Itineraries'
+import Hostel from './components/Hostel'
 import Contact from './components/Contact'
 import About from "./components/About";
 import apiClient from "./http-common";
@@ -64,6 +65,8 @@ import apiClient from "./http-common";
             <Route path="/contact" element={<Contact />}/>
             <Route path="/about" element={<About />}/>
             <Route path="/itineraries" element={<Itineraries />}/>
+            <Route path="/hostels/:id" element={<Hostel />}/>
+     
         
      
             
