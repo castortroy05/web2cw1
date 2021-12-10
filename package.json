@@ -18,6 +18,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
     "react-chartjs-2": "^4.0.0",
+    "react-data-table-component": "^7.4.5",
     "react-dev-utils": "^11.0.4",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -26,6 +27,7 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "^4.0.3",
     "react-stars": "^2.2.5",
+    "styled-components": "^5.3.3",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

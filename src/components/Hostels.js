@@ -6,6 +6,7 @@ import { Accordion ,Badge, Button, ButtonGroup } from "react-bootstrap";
 import ReactStars from "react-stars"
 import {Bar} from 'react-chartjs-2';
 import Chart from 'chart.js/auto'
+import DataTable from 'react-data-table-component';
 
 class Hostels extends Component {
   
@@ -59,28 +60,54 @@ CardView = ({
       <Card.Subtitle className="text-sm text-muted text-center ">{email}</Card.Subtitle>
       {/* <Card.Text className="text-center">Lat : {location.lat} Long : {location.long}</Card.Text> */}
       <Card.Text className="truncate" style={{margin:"3px"}}>{description}</Card.Text>
-      <Card.Header className="text-center" as="h4" >Reviews</Card.Header>
-      //use accordian to have the reviews expand 
-      {/* <Accordion>
-      {reviews.map((review, acc) => (
-        <div key={acc}>
-        <Accordion.Toggle as={Button} variant="link" eventKey={acc}>
-          {review.review}
-        </Accordion.Toggle>
-        <Accordion.Collapse eventKey={acc}>
-          <Card.Body>
-            <Card.Text>{review.review}</Card.Text>
-          </Card.Body>
-        </Accordion.Collapse>
-      </div>
-      ))}
-      </Accordion>
-      <ButtonGroup className="d-flex justify-content-center">
-      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}`)}>View</Button>
-      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}/edit`)}>Edit</Button>
-      <Button variant="outline-light" className="bg-dark" onClick={() => this.props.history.push(`/hostels/${id}/delete`)}>Delete</Button>
+      <DataTable
+        columns={[
+          {
+            name: 'Reviewer',
+            selector: 'reviewer',
+            sortable: true,
+          },
+          {
+            name: 'Review',
+            selector: 'review',
+            sortable: true,
+          },
+        ]}
+        data={reviews}
+        pagination={true}
+        paginationPerPage={5}
+        paginationRowsPerPageOptions={[5, 10, 15]}
+        highlightOnHover={true}
+        pointerOnHover={true}
+        striped={true}
+        dense={true}
+        selectableRows={false}
+        customStyles={
+          {
+            rows: {
+              style: {
+                minHeight: '5rem',
+                maxHeight: '5rem',
+                borderRadius: '2rem',
+                minWidth: '30rem',
+                maxWidth: '30rem',
+                minHeight: '7rem',
+                maxHeight: '7rem',
+              },
+            },
+          }
+        }
+
+
+      
+      />
+      {/* <ButtonGroup className="text-center" style={{margin:"3px"}}>
+      <Button variant="outline-success" href={`/hostels/${id}`}>View</Button>
+      <Button variant="outline-primary" href={`/hostels/${id}/edit`}>Edit</Button>
+      <Button variant="outline-danger" onClick={() => this.deleteHostel(id)}>Delete</Button>
       </ButtonGroup> */}
-      <ListGroup variant="flush">
+      
+      {/* <ListGroup variant="flush">
       {reviews.map((review, index) => (
         <ListGroup.Item key={index}>
           <div className="row">
@@ -97,7 +124,7 @@ CardView = ({
           </div>
         </ListGroup.Item>
       ))}
-      </ListGroup>
+      </ListGroup> */}
       <Card.Footer className="text-center">
       <ButtonGroup className="text-center" aria-label="Basic example">
         <Button variant="outline-info" onClick={() => this.props.history.push(`/hostels/${id}`)}>View</Button>
@@ -139,7 +166,6 @@ CardView = ({
 );
 addReview(id) {
   console.log(id);
-  //using bootstrap modal to add a review to the hostel
     axios.post('http://localhost:3001/hostels/'+id+'/reviews', {
     reviewer: "John",
     review: "This is a review"
