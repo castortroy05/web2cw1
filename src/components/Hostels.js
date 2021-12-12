@@ -37,6 +37,8 @@ CardView = ({
   reviews=[],
   ratings=[],
   location= {lat:0, long:0},
+  reviewid="review"+id,
+  reviewerid="reviewer"+id,
     
 }) => (
 <Card bg="dark" className="" style={{width:"25rem", boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)" , borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem", borderWidth:"0"}}>
@@ -54,6 +56,19 @@ CardView = ({
       <Card.Body className="bg-light">
       <Card.Text className="" style={{margin:"5px" , textAlign:"justify", textJustify:"inter-word",}}>{description}</Card.Text>
       </Card.Body>
+      <form className="d-flex align-left flex-column" style={{display:"flex", flexDirection:"column"}}>
+        <label className="text-center" htmlFor={"review"+id}>Review</label>
+        <textarea className="form-control" id={"review"+id} rows="3" placeholder="Enter your review here"></textarea>
+        <label className="text-center" htmlFor={"reviewer"+id}>Reviewer</label>
+        <input className="form-control" id={"reviewer"+id} placeholder="Enter your name here"></input>
+        <Button className="btn-primary" onClick={()=>{
+          console.log('review is ' + document.getElementById(reviewid).value + " " + document.getElementById(reviewerid).value)
+          let review = document.getElementById(reviewid).value;
+          let reviewer = document.getElementById(reviewerid).value;
+          this.addReview(id, review, reviewer);
+          
+        }}>Submit</Button>
+        </form>
     </Card.Body>
     <Card.Footer bg="dark" className="text-white text-center"><ButtonGroup>
     <Link to={`/hostels/${id}`}>
