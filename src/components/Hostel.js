@@ -53,7 +53,7 @@ CardView = ({
     
 }) => (
   <CardGroup>
-      <Card bg="dark" className="shadow-lg" style={{width:"33%", borderRadius:"2rem", minWidth:"100%", maxWidth:"100%", minHeight:"7rem", borderWidth:"0"}}>
+      <Card bg="dark" className="shadow-lg" style={{width:"33%",boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)",  borderRadius:"2rem", minWidth:"100%", maxWidth:"100%", minHeight:"7rem", borderWidth:"0"}}>
       <Card.Header className="text-center d-flex flex-column align-items-center text-light" as="h4" >{name}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2" ><ReactStars
         count={5}
         value={(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}
@@ -61,7 +61,7 @@ CardView = ({
         color2={'#ffd700'}
         edit={false}
       /></Badge> </Card.Header>
-      {/* <iframe title="location" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAiNObb6o1jwa00ryO1xpEqL0VFF7yk5Ls&q=${location.lat},${location.long}`} width="100%" height="200" frameborder="0" style={{border:0}} allowfullscreen></iframe> */}
+      <iframe title="location" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAiNObb6o1jwa00ryO1xpEqL0VFF7yk5Ls&q=${location.lat},${location.long}`} width="100%" height="200" frameborder="0" style={{border:0}} allowfullscreen></iframe>
       {/* <Card.Img variant="top" src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" /> */}
       
       
@@ -73,9 +73,10 @@ CardView = ({
       </Card.Body>
 
       </Card>
-      <Card >
+      <Card style={{boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)"}}>
+      <Card.Header className="text-center" as="h4" >Reviews</Card.Header> 
       <Card.Body className="d-flex bg-light flex-column" style={{display:"flex", flexDirection:"column"}} >
-      <Card.Header className="text-center" as="h4" >Reviews</Card.Header>       
+            
       {reviews.map((review, index) => (
         <Card.Text key={index} className="text-center d-flex flex-column align-items-center " style={{margin:"0.5rem"}}> {review.review}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2">{review.reviewer}</Badge></Card.Text>
                        
@@ -86,17 +87,19 @@ CardView = ({
         <textarea className="form-control" id="review" rows="3" placeholder="Enter your review here"></textarea>
         <label className="text-center" htmlFor="reviewer">Reviewer</label>
         <input className="form-control" id="reviewer" placeholder="Enter your name here"></input>
-        <Button className="btn-primary" onClick={()=>{
+        
+        </form>
+        </Card.Body>
+        <Card.Footer bg="dark" className="text-white bg-dark text-center"><Button variant="warning" className="btn-primary btn-sm" onClick={()=>{
           console.log('review is ' + document.getElementById('review').value + " " + document.getElementById('reviewer').value)
           let review = document.getElementById('review').value;
           let reviewer = document.getElementById('reviewer').value;
           this.addReview(this.getHostelId(), review, reviewer);
           
-        }}>Submit</Button>
-        </form>
-        </Card.Body>
+        }}>Submit</Button></Card.Footer>
      </Card>
-     <Card>
+     <Card style={{boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)"}}>
+     <Card.Header className="text-center" as="h4" >Ratings</Card.Header> 
       <Card.Body className="d-flex bg-light flex-column" >
       <Bar      
         datasetIdKey="id"
@@ -107,7 +110,7 @@ CardView = ({
           labels: [1,2,3,4,5],
           datasets: [
             {              
-              label: "Ratings - " + ratings.length + " ratings",
+              label: "Ratings - " + ratings.length + " ratings" + " - " + (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2) + " average",
               backgroundColor: "rgba(203,124,20,0.2)",
               borderColor: "rgba(255,165,0,1)",
               
@@ -134,9 +137,9 @@ CardView = ({
         </Card.Body>
            
     <Card.Text></Card.Text>
-    <Card.Footer bg="dark" className="text-white text-center">
-    <ButtonGroup><Button variant="success" className="fa fa-envelope" href={`mailto:${email}`}></Button><Button className="fa fa-map" href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}></Button><Button className="fa fa-plus" onClick={() => this.addReview(id)}></Button>
-    <Button className="fa fa-eye"></Button></ButtonGroup></Card.Footer>
+    <Card.Footer bg="dark" className="text-white bg-dark text-center">
+    <ButtonGroup  ><Button variant="warning" className="fa fa-envelope" href={`mailto:${email}`}></Button><Button variant="warning" className="fa fa-map" href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}></Button><Button variant="warning" className="fa fa-plus" onClick={() => this.addRating(id)}></Button>
+    </ButtonGroup></Card.Footer>
   </Card>
   </CardGroup>
 

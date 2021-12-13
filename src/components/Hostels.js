@@ -68,8 +68,8 @@ CardView = ({
       </Card.Footer>
       </Card.Body>
      
-      
-      {/* <Card.Body>
+{/*       
+      <Card.Body>
       <form className="d-flex align-left flex-column" style={{display:"flex", flexDirection:"column"}}>
         <label className="text-center" htmlFor={"review"+id}>Review</label>
         <textarea className="form-control" id={"review"+id} rows="3" placeholder="Enter your review here"></textarea>
@@ -101,14 +101,12 @@ addReview(id, review, reviewer) {
     review: review
   })
   .then(res => {
-    console.log('review response '+res);
+    console.log('review response '+JSON.stringify(res));
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
       console.log('state updated');
-
-    //window.location.href = '/hostels';
-    // window.location.reload();
+  
   })
   .catch(function (error) {
     console.log(error);

@@ -7,7 +7,7 @@ import { Badge, Button, ButtonGroup, CardGroup } from "react-bootstrap";
 
 
 
-class Itineraries extends Component {
+class newItinerary extends Component {
   
   constructor(props) {
     super(props);
@@ -74,54 +74,48 @@ getHostelName(id) {
   
 // }
     
-CardView = ({
-  user = "Default Title",
-  startdate = Date.now(),
-  stages = [],
-  hostelName = "Default Text",
-  dateDisplay = dateformat(startdate, "dddd, mmmm dS, yyyy"),
-    
+// CardView = ({
+//   user = "Default Title",
+//   startdate = Date.now(),
+//   stages = [],
+//   hostelName = "Default Text",
+//   dateDisplay = dateformat(startdate, "dddd, mmmm dS, yyyy"),
+//   endDate= startdate + (1000 * 60 * 60 * 24 * stages.length),  
   
-  }) => (
-    <Card className="flipInY" bg="dark" text="white" style={{width:"25rem", boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)", borderRadius:"2rem", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
-    <Card.Title className="text-center" as="h4">{user}</Card.Title>    
-    <Card.Subtitle className="text-sm text-muted text-center">{dateDisplay}</Card.Subtitle>
-    <Card.Body className="bg-light text-dark"> 
-    <ListGroup variant="flush">
-        {stages.map(stage => (
-          <ListGroup.Item>
-          <Card.Header className="text-center" as="h5">Stage {stage.stage}</Card.Header>
-          <Card.Title className="text-center">{this.getHostelName(stage.hostel)}</Card.Title>  
-          {/* <Card.Subtitle className="text-left">Hostel ID : {stage.hostel} </Card.Subtitle> */}
-          <Card.Text className="text-center">Number of Nights : {stage.nights}</Card.Text>
-          <Card.Footer className="text-center">
-          <ButtonGroup className="text-center" aria-label="Basic example">
-            <Button className="text-center" variant="danger" onClick={() => this.deleteStage(stage.id)}>Delete</Button>
-          </ButtonGroup>
-          </Card.Footer>
-
-          </ListGroup.Item>
-          )
-        )
-        }
-      </ListGroup>
-    </Card.Body>{/* 
-           */}
+//   }) => (
+//     <Card className="flipInY" bg="dark" text="white" style={{width:"25rem", borderRadius:"5%", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
+//     <Card.Title className="text-center" as="h4">{user}</Card.Title>    
+//     <Card.Subtitle className="text-sm text-muted text-center">{dateDisplay}</Card.Subtitle>
+//     <Card.Body className="bg-light text-dark"> 
+//     <ListGroup variant="flush">
+//         {stages.map(stage => (
+//           <ListGroup.Item>
+//           <Card.Title className="text-center" as="h5">Stage {stage.stage}</Card.Title>
+//           <Card.Title className="text-center">{this.getHostelName(stage.hostel)}</Card.Title>  
+//           <Card.Subtitle className="text-left">Hostel ID : {stage.hostel} </Card.Subtitle>
+//           <Card.Text className="text-left">Number of Nights : {stage.nights}</Card.Text>
+//           </ListGroup.Item>
+//           )
+//         )
+//         }
+//       </ListGroup>
+//     </Card.Body>{/* 
+//            */}
     
-    <Card.Footer className="text-center">
-    <ButtonGroup>
-    <Button variant="outline-secondary" size="sm">Edit</Button>
-    <Button variant="outline-secondary" size="sm">Delete</Button>
-    </ButtonGroup>
-    </Card.Footer>
+//     <Card.Footer className="text-center">
+//     <ButtonGroup>
+//     <Button variant="outline-secondary" size="sm">Edit</Button>
+//     <Button variant="outline-secondary" size="sm">Delete</Button>
+//     </ButtonGroup>
+//     </Card.Footer>
 
 
 
 
 
           
-  </Card>
-);
+//   </Card>
+// );
 
 addStage(hostelid, user, startdate, nights) {
   console.log(hostelid, user, startdate, nights);
@@ -162,7 +156,9 @@ allItineraries() {
       
       <div className="container-fluid">
       <div className="justify-content-center card-group gap-4">
-      {/* <Card bg="warning" text="white" style={{width:"45rem", borderRadius:"2rem", minWidth:"60%", maxWidth:"80%", minHeight:"30rem", }}>
+      <Card bg="warning" text="white" style={{width:"45rem", borderRadius:"2rem", minWidth:"60%", maxWidth:"80%", minHeight:"30rem", }}>
+      {/* <div className="row justify-content-center">
+      <div className="col-md-6"> */}
       <Card.Title className="text-center" as="h4">Add New Itinerary</Card.Title>
       <Card.Body className="bg-light text-dark">
       
@@ -191,7 +187,7 @@ allItineraries() {
       <Button variant="outline-secondary" size="sm">Delete</Button>
       </Card.Footer>
 
-      </Card> */}
+      </Card>
      </div> 
 
      <div className="justify-content-center card-group gap-4">{this.allItineraries()}</div>
@@ -208,4 +204,4 @@ allItineraries() {
 
 }
  
-export default Itineraries;
+export default newItinerary;
