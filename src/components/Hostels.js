@@ -56,6 +56,20 @@ CardView = ({
       <Card.Body className="bg-light">
       <Card.Text className="" style={{margin:"5px" , textAlign:"justify", textJustify:"inter-word",}}>{description}</Card.Text>
       </Card.Body>
+      <Card.Body className="bg-light">
+      
+      <Card.Footer className="bg-light">
+      
+      {reviews.map((review, index) => (
+        <Card.Text key={index} className="text-center d-flex flex-column align-items-center " style={{margin:"0.5rem"}}> {review.review}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2">{review.reviewer}</Badge></Card.Text>
+                       
+      ))}
+      
+      </Card.Footer>
+      </Card.Body>
+     
+      
+      {/* <Card.Body>
       <form className="d-flex align-left flex-column" style={{display:"flex", flexDirection:"column"}}>
         <label className="text-center" htmlFor={"review"+id}>Review</label>
         <textarea className="form-control" id={"review"+id} rows="3" placeholder="Enter your review here"></textarea>
@@ -69,6 +83,8 @@ CardView = ({
           
         }}>Submit</Button>
         </form>
+    </Card.Body> */}
+    
     </Card.Body>
     <Card.Footer bg="dark" className="text-white text-center"><ButtonGroup>
     <Link to={`/hostels/${id}`}>
@@ -78,14 +94,21 @@ CardView = ({
             </Link></ButtonGroup></Card.Footer>
   </Card>
 );
-addReview(id) {
-  console.log(id);
+addReview(id, review, reviewer) {
+  console.log(id, review, reviewer);
     axios.post('http://localhost:3001/hostels/review/'+id+'', {
-    reviewer: "John",
-    review: "This is a review"
+    reviewer: reviewer,
+    review: review
   })
   .then(res => {
-    console.log(res);
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+
+    //window.location.href = '/hostels';
+    // window.location.reload();
   })
   .catch(function (error) {
     console.log(error);
@@ -128,7 +151,7 @@ handleSearch = (event) =>{
 
 
   render() {
-    const { allHostels } = this.state;
+    //const { allHostels } = this.state;
 
     return (
       <div>
@@ -145,37 +168,7 @@ handleSearch = (event) =>{
 
                 <div className="justify-content-center card-group gap-4">{this.allHostels()}</div>
         </div>
-        {/* ///create a Modal to add a review for the hostel */}
-        {/* <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Add Review</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">  
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div className="modal-body">
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">Email address</label>
-                      <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                      <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                      <input type="text hidden" id="hostelId" value={this.state.allHostels[0].id} />
-                      <input type="text" id="reviewer" placeholder="Enter your name" />
-                      <textarea id="review" placeholder="Enter your review" rows="3"></textarea>
-                      <input type="number" id="rating" placeholder="Enter your rating" />
-                      </div>
-                      <button type="submit" className="btn btn-primary">Submit</button>
-                  </form>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-                    </div>
-                    </div>   */}
-
+        
                             
                         
 

@@ -54,15 +54,15 @@ import apiClient from "./http-common";
               <li><NavLink to="/">Home</NavLink></li>
               <li><NavLink to="/hostels">Hostels</NavLink></li>
               <li><NavLink to="/itineraries">Itineraries</NavLink></li>
-              <li><NavLink to="/contact">Contact</NavLink></li> 
-              <li><NavLink to="/about">About</NavLink></li>
+              {/* <li><NavLink to="/contact">Contact</NavLink></li> 
+              <li><NavLink to="/about">About</NavLink></li> */}
               </ul>
             <div className="content">
             <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/hostels" element={<Hostels />}/>
-            <Route path="/contact" element={<Contact />}/>
-            <Route path="/about" element={<About />}/>
+            {/* <Route path="/contact" element={<Contact />}/>
+            <Route path="/about" element={<About />}/> */}
             <Route path="/itineraries" element={<Itineraries />}/>
             <Route path="/hostels/:id" element={<Hostel />}/>
      

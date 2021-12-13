@@ -1,10 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, setState } from "react";
 import axios from 'axios';
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
-import Hostels from "./Hostels";  
-import { Badge, Button, ButtonGroup } from "react-bootstrap";
-import DataTable from 'react-data-table-component';
+import dateformat from 'dateformat';
+import { Form, Button, ButtonGroup, CardGroup } from "react-bootstrap";
+import { flipInY } from 'react-animations';
 
 
 class Itineraries extends Component {
@@ -19,6 +19,7 @@ class Itineraries extends Component {
     axios.get('http://localhost:3001/itineraries/?')
         .then(res => {
             this.setState({ allItineraries: res.data });
+            this.getAllHostels();
             // console.log(res.data);
         })
         .catch(function (error) {
@@ -26,23 +27,11 @@ class Itineraries extends Component {
         })
 }
 
-//load hostel data from the hostels component function allHostels() and save it to the state
-//   componentDidUpdate(prevProps, prevState) {
-//     axios.get('http://localhost:3001/hostels/?')
-//         .then(res => {
-//             this.setState({ allHostels: res.data });
-//             console.log(res.data);            
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-
-//         })
-// }
 
 getAllHostels() {
     axios.get('http://localhost:3001/hostels/?')
         .then(res => {
-            // this.setState({ allHostels: res.data });
+            this.setState({ allHostels: res.data });
             this.allHostels= res.data;
             console.log(res.data);
         })
@@ -54,125 +43,104 @@ getAllHostels() {
 
 
 getHostelName(id) {
-  console.log(id);
-  console.log(this.allHostels)
-  axios.get('http://localhost:3001/hostels/' + id)
-      .then(res => {
-          // this.setState({ allHostels: res.data });
-          this.filteredHostels= res.data[0];
-          console.log(res.data[0]);
-          console.log(this.filteredHostels);
-          return this.filteredHostels
-      })
-      .catch(function (error) {
-          console.log(error);
-      })
-console.log('return this ' + this.filteredHostels);
+  console.log('id being loaded '+id);
+  console.log('array of all hostels ' + JSON.stringify(this.state.allHostels))
+  // setState(this.filteredHostels)
+  this.state.allHostels.map((hostel, i) => {
+    if (hostel.id === id.toString()) {
+      console.log('hostel name ' + hostel.name);
+      this.state.filteredHostels = hostel 
+    }
+  });
+  //console.log('filtered hostel ' + JSON.stringify(this.filteredHostels));
+  return this.state.filteredHostels.name;
+}
+
+
+  // axios.get('http://localhost:3001/hostels/' + id)
+  //     .then(res => {
+  //         // this.setState({ allHostels: res.data });
+  //         this.filteredHostels= res.data[0];
+  //         console.log('data loaded ' + res.data[0].name);
+  //         console.log('filtered to ' + this.filteredHostels.name);
+  //         return this.filteredHostels.name
+  //     })
+  //     .catch(function (error) {
+  //         console.log(error);
+  //     })
+// console.log('return this ' + this.filteredHostels);
 
   
   
-}
+// }
     
 CardView = ({
   user = "Default Title",
-  startdate = "Default Text",
+  startdate = Date.now(),
   stages = [],
+  hostelName = "Default Text",
+  dateDisplay = dateformat(startdate, "dddd, mmmm dS, yyyy"),
+  
   
   }) => (
-    //get the hostelName using the getHostelName function
-    <Card className="col-md-4">
-      <Card.Header>
-        <Card.Title>{user}</Card.Title>
-      </Card.Header>  <Card.Body>
-        <Card.Text>
-          {startdate}
-        </Card.Text>
-        <Card.Text>
-          {stages.map(stage => (
-            <div>
-              <h5>Hostel ID {stage.hostel}</h5>
-              <p>Number of Nights {stage.nights}</p> 
-              <p>Hostel : {this.getHostelName(stage.hostel)}</p> 
-           </div>
-          ))}
-        </Card.Text>
-      </Card.Body>
-    </Card>
-  );
+    <Card className="flipInY" bg="dark" text="white" style={{width:"25rem", borderRadius:"5%", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
+    <Card.Title className="text-center" as="h4">{user}</Card.Title>    
+    <Card.Subtitle className="text-sm text-muted text-center">{dateDisplay}</Card.Subtitle>
+    <Card.Body className="bg-light text-dark"> 
+    <ListGroup variant="flush">
+        {stages.map(stage => (
+          <ListGroup.Item>
+          <Card.Title className="text-center" as="h5">Stage {stage.stage}</Card.Title>
+          <Card.Text className="text-left">Hostel : {this.getHostelName(stage.hostel)}</Card.Text>  
+          <Card.Text className="text-left">Hostel ID : {stage.hostel}</Card.Text>
+          <Card.Text className="text-left">Number of Nights : {stage.nights}</Card.Text>
+          </ListGroup.Item>
+          )
+        )
+        }
+      </ListGroup>
+    </Card.Body>{/* 
+           */}
     
-//     <Card bg="info" text="white" className="text-center" style={{width:"25rem", borderRadius:"5%", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
-//     <Card.Title className="text-center" as="h4">{user}</Card.Title>    
-//     <Card.Subtitle className="text-sm text-muted text-center">{startdate}</Card.Subtitle>
-//     <Card.Body className="bg-light text-dark"> 
-    
-//     <DataTable
-//       title="Stages"
-//     columns={[
-//       {
-//         name: 'Hostel ID',
-//         selector: (stages) => stages.hostel,
-//         sortable: true,
-//       },
-//       {
-//         name: 'Hostel Name',
-//         selector: (stages) => stages.hostelName,
-//         sortable: true,
-//       },
-//       {
-//         name: 'Nights',
-//         selector: (stages) => stages.nights,
-//       },
-//     ]}
-//     data={stages}
-//     pagination={true}
-//         paginationPerPage={5}
-//         paginationRowsPerPageOptions={[5, 10, 15]}
-//         highlightOnHover={true}
-//         pointerOnHover={true}
-//         striped={true}
-//         dense={true}
-//         selectableRows={false}
-//         customStyles={
-//           {
-//             rows: {
-//               style: {
-//                 minHeight: '5rem',
-//                 maxHeight: '5rem',
-//                 borderRadius: '2rem',
-//                 maxWidth: '30rem',
-//                 minHeight: '7rem',
-//                 maxHeight: '7rem',
-//               },
-//             },
-//           }
-//         }
-
-//     />
-
-//         {/* <ListGroup variant="flush">
-//         {stages.map(stage => (
-//           //put edit and delete buttons for each stage beside the stage name
-//           <ListGroup.Item>          
-//           Hostel :   Hostel ID : {stage.hostel} - Number of Nights : {stage.nights}
-//           </ListGroup.Item>
-//         ))}
-//       </ListGroup> */}
-//     </Card.Body>
-    
-//     <Card.Footer className="text-center">
-//     <ButtonGroup>
-//     <Button variant="outline-secondary" size="sm">Edit</Button>
-//     <Button variant="outline-secondary" size="sm">Delete</Button>
-//     </ButtonGroup>
-//     </Card.Footer>
+    <Card.Footer className="text-center">
+    <ButtonGroup>
+    <Button variant="outline-secondary" size="sm">Edit</Button>
+    <Button variant="outline-secondary" size="sm">Delete</Button>
+    </ButtonGroup>
+    </Card.Footer>
 
 
 
 
 
           
-//   </Card>
-// );
+  </Card>
+);
+
+addStage(hostelid, user, startdate, nights) {
+  console.log(hostelid, user, startdate, nights);
+    axios.post('http://localhost:3001/itineraries/new/'+user+'', {
+    hostelid: hostelid,
+    startdate: startdate,
+    nights: nights
+  })
+  .then(res => {
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+
+    //window.location.href = '/hostels';
+    // window.location.reload();
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+
+
 
 allItineraries() {
     return this.state.allItineraries.map((data, i) => {
@@ -181,13 +149,59 @@ allItineraries() {
 }
 
   render() {
-window.onload = this.getAllHostels();    
+
     return (
+      <div className="container">
+      <div className="row justify-content-center">
+      
       <div className="container-fluid">
-      <div className="justify-content-center card-group gap-3">{this.allItineraries()}</div>
-</div>
+      <div className="justify-content-center card-group gap-4">
+      <Card bg="warning" text="white" style={{width:"45rem", borderRadius:"2rem", minWidth:"60%", maxWidth:"80%", minHeight:"30rem", }}>
+      {/* <div className="row justify-content-center">
+      <div className="col-md-6"> */}
+      <Card.Title className="text-center" as="h4">Add New Itinerary</Card.Title>
+      <Card.Body className="bg-light text-dark">
+      
+      
+      <form onSubmit={this.handleSubmit}>
+      <div className="form-group">
+      <label htmlFor="userName">User</label>
+      <input type="text" className="form-control" id="userName" aria-describedby="userName" placeholder="Enter User Name" value={this.state.userName} onChange={this.handleChange} />
+      <label className="text-center" htmlFor="startDate">Start Date</label>
+      <input type="date" className="form-control" id="startDate" aria-describedby="startDate" placeholder="Enter Start Date" value={this.state.startDate} onChange={this.handleChange} />
+      <label htmlFor="hostel">Hostel</label>
+      <select className="form-control" id="hostel" value={this.state.hostel} onChange={this.handleChange}>
+      <option value="">Select Hostel</option>
+      {this.state.allHostels.map((hostel, i) => {
+        return <option key={i} value={hostel.id}>{hostel.name}</option>
+      })}
+      </select>
+      <label htmlFor="nights">Number of Nights</label>
+      <input type="text" className="form-control" id="nights" aria-describedby="nights" placeholder="Enter Number of Nights" value={this.state.nights} onChange={this.handleChange} />
+      </div>
+      <button type="submit" className="btn btn-primary">Submit</button>
+      </form> 
+      </Card.Body>
+      <Card.Footer className="text-center">
+      <Button variant="outline-secondary" size="sm">Edit</Button>
+      <Button variant="outline-secondary" size="sm">Delete</Button>
+      </Card.Footer>
+
+      </Card>
+     </div> 
+
+     <div className="justify-content-center card-group gap-4">{this.allItineraries()}</div>
+      </div>
+      </div>
+      </div>
     );
   }
+      
+    
+
+
+
+
 }
  
 export default Itineraries;
