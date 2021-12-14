@@ -136,9 +136,8 @@ newItinerary = (id) => {
 
 addStage(hostelid, user, startdate, nights) {
   console.log(hostelid, user, startdate, nights);
-    axios.post('http://localhost:3001/itineraries/new/'+user+'', {
+    axios.post('http://localhost:3001/itineraries/stages/new/'+user+'', {
     hostelid: hostelid,
-    startdate: startdate,
     nights: nights
   })
   .then(res => {
