@@ -87,20 +87,23 @@ CardView = ({
     <Card.Title className="text-center" as="h4">{user}</Card.Title>    
     <Card.Subtitle className="text-sm text-muted text-center">{dateDisplay}</Card.Subtitle>
     <Card.Body className="bg-light text-dark"> 
-    <ListGroup variant="flush">
+    <ListGroup variant="outline" className="">
         {stages.map(stage => (
-          <ListGroup.Item>
-          <Card.Header className="text-center" as="h5">Stage {stage.stage}</Card.Header>
-          <Card.Title className="text-center">{this.getHostelName(stage.hostel)}</Card.Title>  
+          
+          <Card.Body className="" style={{marginTop:"0.5rem"}} >
+          {/* <Card.Header className="text-center" as="h4" >Stage {stage.stage}</Card.Header> */}
+          <Card.Header className="text-center d-flex flex-column align-items-center text-dark">{this.getHostelName(stage.hostel)}<Badge className="row align-right" pill="primary">Stage {stage.stage} </Badge>  </Card.Header>  
           {/* <Card.Subtitle className="text-left">Hostel ID : {stage.hostel} </Card.Subtitle> */}
-          <Card.Text className="text-center">Number of Nights : {stage.nights}</Card.Text>
+          <Card.Text className="text-center " >Number of Nights : {stage.nights}</Card.Text>
           <Card.Footer className="text-center">
           <ButtonGroup className="text-center" aria-label="Basic example">
-            <Button className="text-center" variant="danger" onClick={() => this.deleteStage(stage.id)}>Delete</Button>
+            <Button className="text-center" variant="success" onClick={() => this.addStage(stage.hostel, user, startdate, stage.nights)} size="sm">Add</Button>
+            <Button className="text-center" variant="warning" onClick={() => this.editStage(stage.id)} size="sm">Edit</Button>
+            <Button className="text-center" variant="danger" onClick={() => this.deleteStage(stage.id)} size="sm">Delete</Button>
           </ButtonGroup>
           </Card.Footer>
-
-          </ListGroup.Item>
+          </Card.Body>
+          
           )
         )
         }
@@ -110,8 +113,9 @@ CardView = ({
     
     <Card.Footer className="text-center">
     <ButtonGroup>
-    <Button variant="outline-secondary" size="sm">Edit</Button>
-    <Button variant="outline-secondary" size="sm">Delete</Button>
+    <Button variant="success" onClick={() => this.newItinerary(stages.id)} size="sm">Add</Button>
+    <Button variant="warning" onClick={() => this.editItinerary(stages.id)} size="sm">Edit</Button>
+    <Button variant="danger" onClick={() => this.deleteItinerary(stages.id)} size="sm">Delete</Button>
     </ButtonGroup>
     </Card.Footer>
 
@@ -122,6 +126,13 @@ CardView = ({
           
   </Card>
 );
+
+//direct to the new itinerary page
+newItinerary = (id) => {
+  console.log('new itinerary id ' + id);
+  this.props.history.push('/newitinerary/' + id);
+}
+
 
 addStage(hostelid, user, startdate, nights) {
   console.log(hostelid, user, startdate, nights);
@@ -145,6 +156,68 @@ addStage(hostelid, user, startdate, nights) {
   })
 }
 
+deleteStage(id) {
+  console.log('id being deleted '+id);
+  axios.delete('http://localhost:3001/itineraries/'+id+'')
+  .then(res => {
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+    })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+editStage(id) {
+  console.log('id being edited '+id);
+  axios.get('http://localhost:3001/itineraries/'+id+'')
+  .then(res => {
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+    })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+deleteItinerary(id) {
+  console.log('id being deleted '+id);
+  axios.delete('http://localhost:3001/itineraries/'+id+'')
+  .then(res => {
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+    })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+
+editItinerary(id) {
+  console.log('id being edited '+id);
+  axios.get('http://localhost:3001/itineraries/'+id+'')
+  .then(res => {
+    console.log('review response '+res);
+    this.setState({
+      filteredHostels: this.state.allHostels})
+      this.allHostels();
+      console.log('state updated');
+    })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
+
+
 
 
 
@@ -159,6 +232,14 @@ allItineraries() {
     return (
       <div className="container">
       <div className="row justify-content-center">
+      <Card classname="align-center" style={{width:"25rem", borderWidth:"0" ,borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", backgroundColor:"inherit", borderColor:"backgroundColor",}} >
+        <Card.Title className="text-center">Create a new Itinerary</Card.Title>
+        <Card.Body>
+        <Card.Text className="text-center">
+        <Button variant="outline-dark" onClick={() => this.newItinerary()}>New Itinerary</Button>
+        </Card.Text></Card.Body>
+        </Card>
+
       
       <div className="container-fluid">
       <div className="justify-content-center card-group gap-4">
