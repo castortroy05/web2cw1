@@ -97,8 +97,6 @@ CardView = ({
           <Card.Text className="text-center " >Number of Nights : {stage.nights}</Card.Text>
           <Card.Footer className="text-center">
           <ButtonGroup className="text-center" aria-label="Basic example">
-            <Button className="text-center" variant="success" onClick={() => this.addStage(stage.hostel, user, startdate, stage.nights)} size="sm">Add</Button>
-            <Button className="text-center" variant="warning" onClick={() => this.editStage(stage.id)} size="sm">Edit</Button>
             <Button className="text-center" variant="danger" onClick={() => this.deleteStage(stage.id)} size="sm">Delete</Button>
           </ButtonGroup>
           </Card.Footer>
