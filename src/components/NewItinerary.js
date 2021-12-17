@@ -7,7 +7,7 @@ import { Badge, Button, ButtonGroup, CardGroup } from "react-bootstrap";
 
 
 
-class newItinerary extends Component {
+class NewItinerary extends Component {
   
   constructor(props) {
     super(props);
@@ -179,18 +179,17 @@ allItineraries() {
       <label htmlFor="nights">Number of Nights</label>
       <input type="text" className="form-control" id="nights" aria-describedby="nights" placeholder="Enter Number of Nights" value={this.state.nights} onChange={this.handleChange} />
       </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
+      
       </form> 
       </Card.Body>
       <Card.Footer className="text-center">
-      <Button variant="outline-secondary" size="sm">Edit</Button>
-      <Button variant="outline-secondary" size="sm">Delete</Button>
+      <button type="submit" className="btn btn-primary">Submit</button>
       </Card.Footer>
 
       </Card>
      </div> 
 
-     <div className="justify-content-center card-group gap-4">{this.allItineraries()}</div>
+     {/* <div className="justify-content-center card-group gap-4">{this.allItineraries()}</div> */}
       </div>
       </div>
       </div>
@@ -204,4 +203,4 @@ allItineraries() {
 
 }
  
-export default newItinerary;
+export default NewItinerary;

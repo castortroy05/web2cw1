@@ -2,16 +2,12 @@
 import React, { Component } from "react";
 import {Navbar, NavItem, Button, MenuItem, Container} from 'react-bootstrap';
 import LinkContainer from 'react-router-bootstrap';
-import {
-    Route,
-    Routes,
-    NavLink,
-    BrowserRouter
-  } from "react-router-dom";
-import Home from "./Home";
+import { Route, Routes, NavLink, BrowserRouter} from "react-router-dom";
+import Home from "./components/Home";
 import Hostels from "./components/Hostels";
 import Itineraries from './components/Itineraries'
 import Hostel from './components/Hostel'
+import NewItinerary from './components/NewItinerary'
 import Contact from './components/Contact'
 import About from "./components/About";
 import apiClient from "./http-common";
@@ -59,11 +55,10 @@ import apiClient from "./http-common";
               </ul>
             <div className="content">
             <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/hostels" element={<Hostels />}/>
-            {/* <Route path="/contact" element={<Contact />}/>
-            <Route path="/about" element={<About />}/> */}
             <Route path="/itineraries" element={<Itineraries />}/>
+            <Route path="/newitinerary" element={<NewItinerary />}/>
             <Route path="/hostels/:id" element={<Hostel />}/>
      
         

@@ -83,7 +83,7 @@ CardView = ({
     
   
   }) => (
-    <Card className="flipInY" bg="dark" text="white" style={{width:"25rem", boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)", borderRadius:"2rem", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
+    <Card bg="dark" text="white" style={{width:"25rem", boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)", borderRadius:"2rem", minWidth:"25rem", maxWidth:"25rem", minHeight:"30rem"}}>
     <Card.Title className="text-center" as="h4">{user}</Card.Title>    
     <Card.Subtitle className="text-sm text-muted text-center">{dateDisplay}</Card.Subtitle>
     <Card.Body className="bg-light text-dark"> 
@@ -128,9 +128,12 @@ CardView = ({
 );
 
 //direct to the new itinerary page
-newItinerary = (id) => {
-  console.log('new itinerary id ' + id);
-  this.props.history.push('/newitinerary/' + id);
+newItinerary = () => {
+  console.log('new itinerary');
+  //load the newItinerary component
+  window.location.href = '/newItinerary';
+
+
 }
 
 
@@ -235,44 +238,18 @@ allItineraries() {
         <Card.Title className="text-center">Create a new Itinerary</Card.Title>
         <Card.Body>
         <Card.Text className="text-center">
-        <Button variant="outline-dark" onClick={() => this.newItinerary()}>New Itinerary</Button>
+        <Button variant="success" onClick={() => this.newItinerary()} size="sm">Add</Button>
+        
+
+        
+        
         </Card.Text></Card.Body>
         </Card>
 
       
       <div className="container-fluid">
       <div className="justify-content-center card-group gap-4">
-      {/* <Card bg="warning" text="white" style={{width:"45rem", borderRadius:"2rem", minWidth:"60%", maxWidth:"80%", minHeight:"30rem", }}>
-      <Card.Title className="text-center" as="h4">Add New Itinerary</Card.Title>
-      <Card.Body className="bg-light text-dark">
-      
-      
-      <form onSubmit={this.handleSubmit}>
-      <div className="form-group">
-      <label htmlFor="userName">User</label>
-      <input type="text" className="form-control" id="userName" aria-describedby="userName" placeholder="Enter User Name" value={this.state.userName} onChange={this.handleChange} />
-      <label className="text-center" htmlFor="startDate">Start Date</label>
-      <input type="date" className="form-control" id="startDate" aria-describedby="startDate" placeholder="Enter Start Date" value={this.state.startDate} onChange={this.handleChange} />
-      <label htmlFor="hostel">Hostel</label>
-      <select className="form-control" id="hostel" value={this.state.hostel} onChange={this.handleChange}>
-      <option value="">Select Hostel</option>
-      {this.state.allHostels.map((hostel, i) => {
-        return <option key={i} value={hostel.id}>{hostel.name}</option>
-      })}
-      </select>
-      <label htmlFor="nights">Number of Nights</label>
-      <input type="text" className="form-control" id="nights" aria-describedby="nights" placeholder="Enter Number of Nights" value={this.state.nights} onChange={this.handleChange} />
-      </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
-      </form> 
-      </Card.Body>
-      <Card.Footer className="text-center">
-      <Button variant="outline-secondary" size="sm">Edit</Button>
-      <Button variant="outline-secondary" size="sm">Delete</Button>
-      </Card.Footer>
-
-      </Card> */}
-     </div> 
+      </div> 
 
      <div className="justify-content-center card-group gap-4">{this.allItineraries()}</div>
       </div>
