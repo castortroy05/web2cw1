@@ -111,7 +111,6 @@ CardView = ({
     
     <Card.Footer className="text-center">
     <ButtonGroup>
-    <Button variant="success" onClick={() => this.newItinerary(stages.id)} size="sm">Add</Button>
     <Button variant="warning" onClick={() => this.editItinerary(stages.id)} size="sm">Edit</Button>
     <Button variant="danger" onClick={() => this.deleteItinerary(stages.id)} size="sm">Delete</Button>
     </ButtonGroup>
