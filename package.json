@@ -19,7 +19,7 @@
     "google-maps-react": "^2.0.6",
     "jest-runtime": "^27.4.5",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.0.3",
+    "react-bootstrap": "^2.0.4",
     "react-chartjs-2": "^4.0.0",
     "react-data-table-component": "^7.4.5",
     "react-dev-utils": "^11.0.4",
