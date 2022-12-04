@@ -20,7 +20,7 @@ class Hostels extends Component {
   getHostelId() {
     const url = window.location.href;
     const hostelId = url.substring(url.lastIndexOf('/') + 1);
-    console.log(hostelId);
+    // console.log(hostelId);
     return hostelId;
   }
 
@@ -30,11 +30,11 @@ class Hostels extends Component {
 //use param to load a hostel
 
    componentDidMount() {
-     console.log('page loaded')
+    //  console.log('page loaded')
     axios.get('http://localhost:3001/hostels/'+this.getHostelId())
         .then(res => {
             this.setState({ hostel: res.data });
-            console.log(res.data);
+            // console.log(res.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -91,7 +91,7 @@ CardView = ({
         </form>
         </Card.Body>
         <Card.Footer bg="dark" className="text-white bg-dark text-center"><Button variant="warning" className="btn-primary btn-sm" onClick={()=>{
-          console.log('review is ' + document.getElementById('review').value + " " + document.getElementById('reviewer').value)
+          // console.log('review is ' + document.getElementById('review').value + " " + document.getElementById('reviewer').value)
           let review = document.getElementById('review').value;
           let reviewer = document.getElementById('reviewer').value;
           this.addReview(this.getHostelId(), review, reviewer);
@@ -145,13 +145,13 @@ CardView = ({
 
 );
 addReview(id, review, reviewer) {
-  console.log(id, review, reviewer);
+  // console.log(id, review, reviewer);
     axios.post('http://localhost:3001/hostels/review/'+id+'', {
     reviewer: reviewer,
     review: review
   })
   .then(res => {
-    console.log(res);
+    // console.log(res);
     window.location.href = '/hostels';
     // window.location.reload();
   })

@@ -43,12 +43,12 @@ getAllHostels() {
 
 
 getHostelName(id) {
-  console.log('id being loaded '+id);
-  console.log('array of all hostels ' + JSON.stringify(this.state.allHostels))
+  // console.log('id being loaded '+id);
+  // console.log('array of all hostels ' + JSON.stringify(this.state.allHostels))
   // setState(this.filteredHostels)
   this.state.allHostels.map((hostel, i) => {
     if (hostel.id === id.toString()) {
-      console.log('hostel name ' + hostel.name);
+      // console.log('hostel name ' + hostel.name);
       this.state.filteredHostels = hostel 
     }
   });
@@ -126,7 +126,7 @@ CardView = ({
 
 //direct to the new itinerary page
 newItinerary = () => {
-  console.log('new itinerary');
+  // console.log('new itinerary');
   //load the newItinerary component
   window.location.href = '/newItinerary';
 
@@ -135,17 +135,17 @@ newItinerary = () => {
 
 
 addStage(hostelid, user, startdate, nights) {
-  console.log(hostelid, user, startdate, nights);
+  // console.log(hostelid, user, startdate, nights);
     axios.post('http://localhost:3001/itineraries/stages/new/'+user+'', {
     hostelid: hostelid,
     nights: nights
   })
   .then(res => {
-    console.log('review response '+res);
+    // console.log('review response '+res);
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
 
     //window.location.href = '/hostels';
     // window.location.reload();
@@ -156,14 +156,14 @@ addStage(hostelid, user, startdate, nights) {
 }
 
 deleteStage(id) {
-  console.log('id being deleted '+id);
+  // console.log('id being deleted '+id);
   axios.delete('http://localhost:3001/itineraries/'+id+'')
   .then(res => {
-    console.log('review response '+res);
+    // console.log('review response '+res);
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
     })
   .catch(function (error) {
     console.log(error);
@@ -171,14 +171,14 @@ deleteStage(id) {
 }
 
 editStage(id) {
-  console.log('id being edited '+id);
+  // console.log('id being edited '+id);
   axios.get('http://localhost:3001/itineraries/'+id+'')
   .then(res => {
-    console.log('review response '+res);
+    // console.log('review response '+res);
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
     })
   .catch(function (error) {
     console.log(error);
@@ -186,14 +186,14 @@ editStage(id) {
 }
 
 deleteItinerary(id) {
-  console.log('id being deleted '+id);
+  // console.log('id being deleted '+id);
   axios.delete('http://localhost:3001/itineraries/'+id+'')
   .then(res => {
-    console.log('review response '+res);
+    // console.log('review response '+res);
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
     })
   .catch(function (error) {
     console.log(error);
@@ -202,14 +202,14 @@ deleteItinerary(id) {
 
 
 editItinerary(id) {
-  console.log('id being edited '+id);
+  // console.log('id being edited '+id);
   axios.get('http://localhost:3001/itineraries/'+id+'')
   .then(res => {
-    console.log('review response '+res);
+    // console.log('review response '+res);
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
     })
   .catch(function (error) {
     console.log(error);
