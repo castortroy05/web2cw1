@@ -21,7 +21,7 @@ class Hostels extends Component {
     axios.get('http://localhost:3001/hostels/?')
         .then(res => {
             this.setState({ allHostels: res.data, filteredHostels: res.data });
-            console.log(res.data);
+            // console.log(res.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -95,17 +95,17 @@ CardView = ({
   </Card>
 );
 addReview(id, review, reviewer) {
-  console.log(id, review, reviewer);
+  // console.log(id, review, reviewer);
     axios.post('http://localhost:3001/hostels/review/'+id+'', {
     reviewer: reviewer,
     review: review
   })
   .then(res => {
-    console.log('review response '+JSON.stringify(res));
+    // console.log('review response '+JSON.stringify(res));
     this.setState({
       filteredHostels: this.state.allHostels})
       this.allHostels();
-      console.log('state updated');
+      // console.log('state updated');
   
   })
   .catch(function (error) {
@@ -127,7 +127,7 @@ addReview(id, review, reviewer) {
 
 handleSearch = (event) =>{
   
-  console.log(event.target.value);
+  // console.log(event.target.value);
   const search = event.target.value.toLowerCase();
   if(search === ""){
     this.setState({
