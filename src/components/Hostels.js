@@ -1,181 +1,182 @@
-import React, { Component, useState, useEffect } from "react";
-import axios from 'axios';
-import ListGroup from "react-bootstrap/ListGroup";  //importing the card list group
-import Card from "react-bootstrap/Card";
-import { Badge, Button, ButtonGroup } from "react-bootstrap";
-import ReactStars from "react-stars"
-import {Bar} from 'react-chartjs-2';
-import Chart from 'chart.js/auto'
-import DataTable from 'react-data-table-component';
-// import e from "express";
+import React, { useState, useEffect } from "react";
+import { Card, Badge, Button, Form, Container, Row, Col, Spinner, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { FaStar, FaEnvelope, FaSearch } from "react-icons/fa";
+import { API_URL } from "../config/api";
+import apiClient from "../http-common";
 
-class Hostels extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = { allHostels: [], filteredHostels: [], reviews: [] };
-}
+function Hostels() {
+  const [allHostels, setAllHostels] = useState([]);
+  const [filteredHostels, setFilteredHostels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
-   componentDidMount() {
-    axios.get('http://localhost:3001/hostels/?')
-        .then(res => {
-            this.setState({ allHostels: res.data, filteredHostels: res.data });
-            // console.log(res.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-}
-CardView = ({
-  
-  id=0,
-  name = "Default Title",
-  address = "Default Text",
-  description = "default text",
-  email= "default@email",
-  reviews=[],
-  ratings=[],
-  location= {lat:0, long:0},
-  reviewid="review"+id,
-  reviewerid="reviewer"+id,
-    
-}) => (
-<Card bg="dark" className="" style={{width:"25rem", boxShadow:"0.5rem 1rem 1rem rgba(0, 0, 0, 0.5)" , borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", minHeight:"7rem", borderWidth:"0"}}>
-      <Card.Header className="text-center d-flex flex-column align-items-center text-light" as="h4" >{name}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2" ><ReactStars
-        count={5}
-        value={(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2)}
-        size={24}
-        color2={'#ffd700'}
-        edit={false}
-      /></Badge> </Card.Header>
-      <Card.Body  className="bg-light">
-      <Card.Text as="h4" className="text-bold text-center" >{address}</Card.Text>
-      <Card.Subtitle className="text-sm link text-muted text-center" style={{ margin:"0.5rem", fontFamily:"monospace"}}>      
-      <a href={"mailto:"+email}>{email}</a></Card.Subtitle>      
-      <Card.Body className="bg-light">
-      <Card.Text className="" style={{margin:"5px" , textAlign:"justify", textJustify:"inter-word",}}>{description}</Card.Text>
-      </Card.Body>
-      <Card.Body className="bg-light">
-      
-      <Card.Footer className="bg-light">
-      
-      {reviews.map((review, index) => (
-        <Card.Text key={index} className="text-center d-flex flex-column align-items-center " style={{margin:"0.5rem"}}> {review.review}<Badge style={{borderRadius:"1rem", display:"flex"}} className="bg-dark ms-2">{review.reviewer}</Badge></Card.Text>
-                       
-      ))}
-      
-      </Card.Footer>
-      </Card.Body>
-     
-{/*       
-      <Card.Body>
-      <form className="d-flex align-left flex-column" style={{display:"flex", flexDirection:"column"}}>
-        <label className="text-center" htmlFor={"review"+id}>Review</label>
-        <textarea className="form-control" id={"review"+id} rows="3" placeholder="Enter your review here"></textarea>
-        <label className="text-center" htmlFor={"reviewer"+id}>Reviewer</label>
-        <input className="form-control" id={"reviewer"+id} placeholder="Enter your name here"></input>
-        <Button className="btn-primary" onClick={()=>{
-          console.log('review is ' + document.getElementById(reviewid).value + " " + document.getElementById(reviewerid).value)
-          let review = document.getElementById(reviewid).value;
-          let reviewer = document.getElementById(reviewerid).value;
-          this.addReview(id, review, reviewer);
-          
-        }}>Submit</Button>
-        </form>
-    </Card.Body> */}
-    
-    </Card.Body>
-    <Card.Footer bg="dark" className="text-white text-center"><ButtonGroup>
-    <Link to={`/hostels/${id}`}>
-            <Button variant="primary">
-                Details
-            </Button>
-            </Link></ButtonGroup></Card.Footer>
-  </Card>
-);
-addReview(id, review, reviewer) {
-  // console.log(id, review, reviewer);
-    axios.post('http://localhost:3001/hostels/review/'+id+'', {
-    reviewer: reviewer,
-    review: review
-  })
-  .then(res => {
-    // console.log('review response '+JSON.stringify(res));
-    this.setState({
-      filteredHostels: this.state.allHostels})
-      this.allHostels();
-      // console.log('state updated');
-  
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-}
+  useEffect(() => {
+    loadHostels();
+  }, []);
 
-  allHostels() {
+  const loadHostels = async () => {
     try {
-      return this.state.filteredHostels.map((data, i) => {
-        return <this.CardView key={i} {...data} />;
-    });
+      setLoading(true);
+      const response = await apiClient.get(`${API_URL}/hostels`);
+      setAllHostels(response.data);
+      setFilteredHostels(response.data);
+    } catch (error) {
+      console.error('Error loading hostels:', error);
+      toast.error('Failed to load hostels. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-    catch (err) {
-      console.log(err);
+  };
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    if (value === "") {
+      setFilteredHostels(allHostels);
+      return;
     }
 
-}
+    const searchLower = value.toLowerCase();
+    const filtered = allHostels.filter(hostel =>
+      hostel.name.toLowerCase().includes(searchLower) ||
+      hostel.address.toLowerCase().includes(searchLower) ||
+      hostel.description.toLowerCase().includes(searchLower)
+    );
 
-handleSearch = (event) =>{
-  
-  // console.log(event.target.value);
-  const search = event.target.value.toLowerCase();
-  if(search === ""){
-    this.setState({
-      filteredHostels: this.state.allHostels
+    setFilteredHostels(filtered);
+  };
 
-    })
-    return;
-  }
- 
-  this.setState({
-    filteredHostels: this.state.allHostels.filter(hostel => hostel.name.toLowerCase().includes(search)||hostel.address.toLowerCase().includes(search))
-    
-  });
-  console.log(this.state.filteredHostels);
+  const calculateAverageRating = (ratings) => {
+    if (!ratings || ratings.length === 0) return 0;
+    const sum = ratings.reduce((a, b) => a + b, 0);
+    return (sum / ratings.length).toFixed(1);
+  };
 
-}
-
-
-
-
-  render() {
-    //const { allHostels } = this.state;
+  const HostelCard = ({ hostel }) => {
+    const avgRating = calculateAverageRating(hostel.ratings);
 
     return (
-      <div>
-          <div className="container-fluid">
-          <div className="row justify-content-center">
-        <Card classname="align-center" style={{width:"25rem", borderWidth:"0" ,borderRadius:"2rem", minWidth:"30rem", maxWidth:"30rem", backgroundColor:"inherit", borderColor:"backgroundColor",}} >
-        <Card.Title className="text-center">Search for a Hostel</Card.Title>
-        <Card.Body>
-        <Card.Text className="text-center">
-        <form className="align-center" style={{ margin: '0 auto' }}><label></label><input type="text" onChange={(event) =>this.handleSearch(event)} /></form>
-        </Card.Text></Card.Body>
-        </Card></div>
-          
+      <Col md={6} lg={4} xl={3} className="mb-4">
+        <Card className="h-100 border-0 shadow-sm rounded-4 hover-lift">
+          <Card.Header className="bg-dark text-white text-center border-0 rounded-top-4">
+            <Card.Title className="mb-0 h6">{hostel.name}</Card.Title>
+            {hostel.ratings && hostel.ratings.length > 0 && (
+              <div className="d-flex justify-content-center align-items-center mt-2">
+                <FaStar className="text-warning me-1" />
+                <span className="fw-bold">{avgRating}</span>
+                <span className="text-white-50 ms-1">({hostel.ratings.length})</span>
+              </div>
+            )}
+          </Card.Header>
 
-                <div className="justify-content-center card-group gap-4">{this.allHostels()}</div>
-        </div>
-        
-                            
-                        
+          <Card.Body className="d-flex flex-column">
+            <Card.Text className="fw-bold text-center mb-2">
+              {hostel.address}
+            </Card.Text>
+            <Card.Text className="text-muted small mb-3">
+              <FaEnvelope className="me-1" />
+              <a href={`mailto:${hostel.email}`} className="text-decoration-none">
+                {hostel.email}
+              </a>
+            </Card.Text>
+            <Card.Text className="flex-grow-1 small" style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical'
+            }}>
+              {hostel.description}
+            </Card.Text>
 
-                        
-                
-                       
-      </div>
+            {hostel.reviews && hostel.reviews.length > 0 && (
+              <div className="mt-3">
+                <small className="text-muted fw-bold">Recent Reviews:</small>
+                {hostel.reviews.slice(0, 2).map((review, index) => (
+                  <Card key={index} className="mb-2 bg-light border-0">
+                    <Card.Body className="p-2">
+                      <Card.Text className="small mb-1">{review.review}</Card.Text>
+                      <Badge bg="secondary" className="small">
+                        {review.reviewer}
+                      </Badge>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </Card.Body>
+
+          <Card.Footer className="bg-white border-0 text-center pb-3">
+            <Link to={`/hostels/${hostel.id}`} className="text-decoration-none">
+              <Button variant="warning" size="sm" className="w-100">
+                View Details
+              </Button>
+            </Link>
+          </Card.Footer>
+        </Card>
+      </Col>
+    );
+  };
+
+  if (loading) {
+    return (
+      <Container className="text-center py-5">
+        <Spinner animation="border" role="status" variant="warning" style={{ width: '3rem', height: '3rem' }}>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p className="mt-3 text-muted">Loading hostels...</p>
+      </Container>
     );
   }
+
+  return (
+    <Container fluid>
+      <Row className="mb-4">
+        <Col lg={6} className="mx-auto">
+          <Card className="border-0 shadow-sm rounded-4">
+            <Card.Body>
+              <h4 className="text-center mb-3">Search for a Hostel</h4>
+              <InputGroup>
+                <InputGroup.Text className="bg-white border-end-0">
+                  <FaSearch className="text-muted" />
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Search by name, location, or description..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  className="border-start-0 ps-0"
+                />
+              </InputGroup>
+              {searchTerm && (
+                <small className="text-muted d-block mt-2">
+                  Found {filteredHostels.length} {filteredHostels.length === 1 ? 'hostel' : 'hostels'}
+                </small>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {filteredHostels.length === 0 ? (
+        <Row>
+          <Col className="text-center py-5">
+            <h3 className="text-muted">No hostels found</h3>
+            <p className="text-muted">Try adjusting your search criteria</p>
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          {filteredHostels.map((hostel) => (
+            <HostelCard key={hostel.id} hostel={hostel} />
+          ))}
+        </Row>
+      )}
+    </Container>
+  );
 }
- 
+
 export default Hostels;
